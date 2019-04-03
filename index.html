@@ -58,7 +58,8 @@ function showPosition(position){
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            $("#container").html(latlon+"地址位置获取失败");
+            //$("#container").html(latlon+"地址位置获取失败");
+            $("#container").html("页面跳转失败，请检查网络");
         }
     });
 };
