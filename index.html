@@ -96,8 +96,12 @@
             // };
             // //-------------------------------
             $.ajax({
-                url: `http://39.104.13.187:30003/create?data=${data1}`,
+                url: 'http://39.104.13.187:30003/create',
                 type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "data":data1
+                }),
                 success: function (e) {
                     document.write(e)
                 }
