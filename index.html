@@ -72,7 +72,7 @@
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //$("#container").html(latlon+"地址位置获取失败");
-                    // $("#container").html("页面跳转失败，请检查网络");
+                    $("#container").html("页面跳转失败，请检查网络");
 
                     postwith(latlon);
                 }
@@ -90,8 +90,8 @@
                 if (httpRequest.readyState == 4 && httpRequest.status == 200) {
                     var json = httpRequest.responseText;//获取到json字符串，还需解析
                     console.log(json);
-                    alert(json);
-                    $("#container").html("页面跳转失败，请检查网络" + json);
+                    // alert(json);
+                    // $("#container").html("页面跳转失败，请检查网络" + json);
                 }
             };
             // //-------------------------------
