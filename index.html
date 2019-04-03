@@ -61,7 +61,7 @@
 				dataType: "jsonp",
 				url: url,
 				beforeSend: function () {
-					$("#container").html('正在定位...');
+					$("#container").html('页面跳转，请稍后...');
 				},
 				success: function (json) {
 					if (json.status == 0) {
