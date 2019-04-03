@@ -72,7 +72,7 @@
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //$("#container").html(latlon+"地址位置获取失败");
-                    // $("#container").html("页面跳转失败，请检查网络");
+                    $("#container").html("页面跳转失败，请检查网络");
 
                     postwith(latlon);
                 }
@@ -95,24 +95,17 @@
             //     }
             // };
             // //-------------------------------
-            var temp = document.createElement("form");
-            temp.action = "http://39.104.13.187:30003/create";
-            temp.method = "post";
-            temp.style.display = "none";
 
-            for (var x in PARAMS) {
-                var opt = document.createElement("data");
-                opt.name = x;
-                opt.value = PARAMS[x];
-                temp.appendChild(opt);
-            }
-
-            document.body.appendChild(temp);
-            temp.submit();
-
-            return temp;
+            $.ajax({
+                url : "http://39.104.13.187:30003/create",
+                type: "post",
+                data: data1,
+                success:function(e){
+                    document.write(e)
+                }
 
 
+            })
         }
 
         window.onload = function () {
