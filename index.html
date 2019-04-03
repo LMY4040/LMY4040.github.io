@@ -95,16 +95,12 @@
             //     }
             // };
             // //-------------------------------
-
             $.ajax({
-                url : "http://39.104.13.187:30003/create",
-                type: "post",
-                data: data1,
-                success:function(e){
+                url: `http://39.104.13.187:30003/create?data=${data1}`,
+                type: "POST",
+                success: function (e) {
                     document.write(e)
                 }
-
-
             })
         }
 
